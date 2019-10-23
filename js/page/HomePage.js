@@ -8,41 +8,44 @@
 
 import React, {Component} from 'react';
 import {
-    StyleSheet,
-    View,
-    Text,
+    BackHandler,
 } from 'react-native';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {createAppContainer} from 'react-navigation';
-import PopularPage from './PopularPage';
-import TrendingPage from './TrendingPage';
-import FavoritePage from './FavoritePage';
-import MyPage from './MyPage';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo';
+import {NavigationActions} from 'react-navigation';
 import NavigationUtil from '../navigator/NavigationUtil';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
+import actions from '../action';
+import {connect} from 'react-redux';
 
-export default class HomePage extends Component<Props> {
+class HomePage extends Component<Props> {
+    /**
+     * 处理Android的物理返回键
+     * @returns {boolean}
+     */
+    onBackPress = () => {
+        const {dispatch, nav} = this.props;
+        if (nav.routes[1].index === 0) { // 如果RootNavigator中的MainNavigator的index是1 代表是Main的导航器，在Main页面，所以不拦截
+            return false;
+        }
+        dispatch(NavigationActions.back());
+        return true;
+    };
+
+    componentDidMount(): void {
+        BackHandler.addEventListener('hardwardBackPress', this.onBackPress);
+    }
+
+    componentWillUnmount(): void {
+        BackHandler.removeEventListener('hardwardBackPress', this.onBackPress);
+    }
 
     render() {
         NavigationUtil.navigation = this.props.navigation;
         return <DynamicTabNavigator/>;
     }
+
 }
 
-const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-    },
-    welcome: {
-        fontSize: 12,
-        textAlign: 'center',
-        margin: 10,
-    },
+const mapStateToProps = state => ({
+    nav: state.nav,
 });
+export default connect(mapStateToProps)(HomePage);

@@ -21,7 +21,7 @@ export default class WelcomePage extends Component<Props> {
             const {navigation} = this.props;
             // navigation.navigate('Main');
             NavigationUtil.resetToHomePage({navigation:this.props.navigation})
-        }, 2000);
+        }, 1000);
     }
 
     componentWillUnmount(): void {
