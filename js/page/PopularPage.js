@@ -11,6 +11,7 @@ import {
     StyleSheet,
     View,
     Text,
+    Platform,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
@@ -49,7 +50,8 @@ export default class PopularPage extends Component<Props> {
                 labelStyle: styles.labelStyle,
             },
         }));
-        return <View style={{flex: 1, marginTop: 50}}>
+        const isIOS = Platform.OS === 'ios';
+        return <View style={{flex: 1, marginTop: isIOS ? 40 : 0}}>
             <TobNavigator/>
         </View>;
     }

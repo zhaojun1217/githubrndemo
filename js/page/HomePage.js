@@ -23,7 +23,8 @@ class HomePage extends Component<Props> {
      */
     onBackPress = () => {
         const {dispatch, nav} = this.props;
-        if (nav.routes[1].index === 0) { // 如果RootNavigator中的MainNavigator的index是1 代表是Main的导航器，在Main页面，所以不拦截
+        // 如果RootNavigator中的MainNavigator的index是1 代表是Main的导航器，在Main页面，所以不拦截
+        if (nav.routes[1].index === 0) {
             return false;
         }
         dispatch(NavigationActions.back());
