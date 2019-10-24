@@ -3,6 +3,9 @@ import WelcomePage from '../page/WelcomePage';
 import {createStackNavigator} from 'react-navigation-stack';
 import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
+import FetchDemoPage from '../page/FetchDemoPage';
+import AsyncStorageDemoPage from '../page/AsyncStorageDemoPage';
+import DataStoreDemoPage from '../page/DataStoreDemoPage';
 import {connect} from 'react-redux';
 import {
     createReactNavigationReduxMiddleware,
@@ -28,6 +31,24 @@ const MainNavigator = createStackNavigator({
     },
     DetailPage: {
         screen: DetailPage,
+        navigationOptions: {
+            // header: null,// 可以通过将header null 来金庸stacknavigator的navigatorbar
+        },
+    },
+    FetchDemoPage: {
+        screen: FetchDemoPage,
+        navigationOptions: {
+            // header: null,// 可以通过将header null 来金庸stacknavigator的navigatorbar
+        },
+    },
+    AsyncStorageDemoPage: {
+        screen: AsyncStorageDemoPage,
+        navigationOptions: {
+            // header: null,// 可以通过将header null 来金庸stacknavigator的navigatorbar
+        },
+    },
+    DataStoreDemoPage: {
+        screen: DataStoreDemoPage,
         navigationOptions: {
             // header: null,// 可以通过将header null 来金庸stacknavigator的navigatorbar
         },
