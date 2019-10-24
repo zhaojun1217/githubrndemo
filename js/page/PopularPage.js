@@ -13,23 +13,32 @@ import {
     Text,
     Platform,
     Button,
+    FlatList,
+    RefreshControl,
 } from 'react-native';
+import {connect} from 'react-redux';
+import actions from '../action/index';
+// import popular from '../reducer/popular';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
 import NavigationUtil from '../navigator/NavigationUtil';
 import DetailPage from './DetailPage';
 
+const URL = 'https://api.github.com/search/repositories?q=';
+const QUERY_STR = `&sort=stars`;
+const THEME_COLOR = 'red';
+
 export default class PopularPage extends Component<Props> {
     constructor(props) {
         super(props);
-        this.tabNames = ['java', 'android', 'react', 'react-native', 'php', 'flutter'];
+        this.tabNames = ['java', 'android', 'react', 'react-native', 'php'];
     }
 
     _genTabs() {
         const tabs = {};
         this.tabNames.forEach((item, index) => {
             tabs[`tab${index}`] = {
-                screen: props => <PopularTab{...props} tabLabel={item}/>,
+                screen: props => <PopularTabPage{...props} tabLabel={item}/>,
                 navigationOptions: {
                     title: item,
                 },
@@ -59,33 +68,78 @@ export default class PopularPage extends Component<Props> {
 }
 
 class PopularTab extends Component<Props> {
-    render() {
+    constructor(props) {
+        super(props);
         const {tabLabel} = this.props;
+        this.storeName = tabLabel;
+    }
+
+    // componentDidMount(): void {
+    //     this.loadData();
+    // }
+    componentDidMount(){
+        this.loadData();
+    }
+
+    loadData() {
+        const {onLoadPopularData} = this.props;
+        const url = this.genFetchUrl(this.storeName);
+        onLoadPopularData(this.storeName, url);
+    }
+
+    genFetchUrl(key) {
+        return URL + key + QUERY_STR;
+    }
+
+    renderItem(data) {
+        const item = data.item;
+        return <View style={{marginBottom: 10}}>
+            <Text style={{backgroundColor: '#456'}}>
+                {JSON.stringify(item)}
+            </Text>
+        </View>;
+    }
+
+    render() {
+        const {popular} = this.props;
+        let store = popular[this.storeName];// 动态获取state
+        if (!store) {
+            store = {
+                items: [],
+                isLoading: false,
+            };
+        }
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome}>{tabLabel}</Text>
-                <Text onPress={() => {
-                    NavigationUtil.goPage({navigation: this.props.navigation}, 'DetailPage');
-                }}>跳转到详情页</Text>
-                <Button title={'Fetch使用'} onPress={() => {
-                    NavigationUtil.goPage({
-                        navigation: this.props.navigation,
-                    }, 'FetchDemoPage');
-                }}/>
-                <Button title={'AsyncStorage使用'} onPress={() => {
-                    NavigationUtil.goPage({
-                        navigation: this.props.navigation,
-                    }, 'AsyncStorageDemoPage');
-                }}/>
-                <Button title={'离线缓存框架DataStore使用'} onPress={() => {
-                    NavigationUtil.goPage({
-                        navigation: this.props.navigation,
-                    }, 'DataStoreDemoPage');
-                }}/>
+                <FlatList
+                    data={store.items}
+                    renderItem={data => this.renderItem(data)}
+                    keyExtractor={item => '' + item.id}
+                    refreshControl={
+                        <RefreshControl
+                            title={'Loading'}
+                            titleColor={THEME_COLOR}
+                            colors={[THEME_COLOR]}
+                            refreshing={store.isLoading}
+                            onRefresh={() => {
+                                // this.loadData();
+                            }}
+                            tintColor={THEME_COLOR}
+                        />
+                    }
+                />
             </View>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    popular: state.popular,
+});
+const mapDispatchToProps = dispatch => ({
+    onLoadPopularData: (storeName, url) => dispatch(actions.onLoadPopularData(storeName, url)),
+});
+const PopularTabPage = connect(mapStateToProps, mapDispatchToProps)(PopularTab);
 
 const styles = StyleSheet.create({
 
