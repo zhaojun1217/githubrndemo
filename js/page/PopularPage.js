@@ -22,10 +22,11 @@ import actions from '../action/index';
 import Toast from 'react-native-easy-toast';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
+import NavigationBar from '../common/NavigationBar';
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = `&sort=stars`;
-const THEME_COLOR = 'red';
+const THEME_COLOR = '#678';
 
 export default class PopularPage extends Component<Props> {
     constructor(props) {
@@ -48,20 +49,30 @@ export default class PopularPage extends Component<Props> {
 
 
     render() {
+        let statusBar = {
+            backgroundColor: THEME_COLOR,
+            barStyle: 'light-content',
+        };
+        let navigationBar = <NavigationBar
+            title={'最热'}
+            statusBar={statusBar}
+            style={{backgroundColor: THEME_COLOR}}
+        />;
         const TobNavigator = createAppContainer(createMaterialTopTabNavigator(this._genTabs(), {
             tabBarOptions: {
                 tabStyle: styles.tabStyle,
                 upperCaseLabel: false,
                 scrollEnabled: true,
                 style: {
-                    backgroundColor: '#456', // tabBar 背景色
+                    backgroundColor: '#678', // tabBar 背景色
                 },
                 indicatorStyle: styles.indicatorStyle,// 指示器的标签样式
                 labelStyle: styles.labelStyle,
             },
         }));
         const isIOS = Platform.OS === 'ios';
-        return <View style={{flex: 1, marginTop: isIOS ? 40 : 0}}>
+        return <View style={{flex: 1, marginTop: isIOS ? 30 : 0}}>
+            {navigationBar}
             <TobNavigator/>
         </View>;
     }

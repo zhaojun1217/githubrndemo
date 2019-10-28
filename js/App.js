@@ -8,7 +8,6 @@
 
 import React, {Component} from 'react';
 import AppNavigator from './navigator/AppNavigator';
-import {createAppContainer} from 'react-navigation';
 import store from './store';
 import Provider from 'react-redux/lib/components/Provider';
 
