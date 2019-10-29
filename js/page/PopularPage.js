@@ -64,6 +64,7 @@ export default class PopularPage extends Component<Props> {
                 upperCaseLabel: false,
                 scrollEnabled: true,
                 style: {
+                    height: 50,
                     backgroundColor: '#678', // tabBar 背景色
                 },
                 indicatorStyle: styles.indicatorStyle,// 指示器的标签样式
@@ -217,7 +218,8 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     tabStyle: {
-        minWidth: 50,
+        // minWidth: 50,
+        padding: 0,
     },
     indicatorStyle: {
         height: 2,
@@ -225,8 +227,9 @@ const styles = StyleSheet.create({
     },
     labelStyle: {
         fontSize: 13,
-        marginTop: 6,
-        marginBottom: 6,
+        margin: 0,
+        // marginTop: 6,
+        // marginBottom: 6,
     },
     indicatorContainer: {
         alignItems: 'center',
