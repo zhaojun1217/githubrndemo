@@ -31,34 +31,34 @@ export default class TrendingDialog extends Component {
             <Modal transparent={true}
                    visible={this.state.visible}
                    onRequestClose={() => onClose}>
-                {/*<TouchableOpacity*/}
-                {/*    style={styles.container}*/}
-                {/*    onPress={() => this.dismiss()}>*/}
-                {/*    <MaterialIcons*/}
-                {/*        name={'arrow-drop-up'}*/}
-                {/*        size={36}*/}
-                {/*        style={styles.arrow}*/}
-                {/*    />*/}
+                <TouchableOpacity
+                    style={styles.container}
+                    onPress={() => this.dismiss()}>
+                    <MaterialIcons
+                        name={'arrow-drop-up'}
+                        size={36}
+                        style={styles.arrow}
+                    />
 
-                {/*    <View style={styles.content}>*/}
-                {/*        {TimeSpans.map((result, i, arr) => {*/}
-                {/*            return <TouchableOpacity*/}
-                {/*                onPress={() => onSelect(arr[i])}*/}
-                {/*                underlayColor='transparent'>*/}
-                {/*                <View style={styles.text_container}>*/}
-                {/*                    <Text*/}
-                {/*                        style={styles.text}*/}
-                {/*                    >{arr[i].showText}</Text>*/}
-                {/*                </View>*/}
-                {/*                {*/}
-                {/*                    i !== TimeSpans.length - 1 ? <View*/}
-                {/*                        style={styles.line}*/}
-                {/*                    /> : null*/}
-                {/*                }*/}
-                {/*            </TouchableOpacity>;*/}
-                {/*        })}*/}
-                {/*    </View>*/}
-                {/*</TouchableOpacity>*/}
+                    <View style={styles.content}>
+                        {TimeSpans.map((result, i, arr) => {
+                            return <TouchableOpacity
+                                onPress={() => onSelect(arr[i])}
+                                underlayColor='transparent'>
+                                <View style={styles.text_container}>
+                                    <Text
+                                        style={styles.text}
+                                    >{arr[i].showText}</Text>
+                                </View>
+                                {
+                                    i !== TimeSpans.length - 1 ? <View
+                                        style={styles.line}
+                                    /> : null
+                                }
+                            </TouchableOpacity>;
+                        })}
+                    </View>
+                </TouchableOpacity>
             </Modal>
         );
     }
