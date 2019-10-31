@@ -32,7 +32,7 @@ const MainNavigator = createStackNavigator({
     DetailPage: {
         screen: DetailPage,
         navigationOptions: {
-            // header: null,// 可以通过将header null 来金庸stacknavigator的navigatorbar
+            header: null,// 可以通过将header null 来金庸stacknavigator的navigatorbar
         },
     },
     FetchDemoPage: {
