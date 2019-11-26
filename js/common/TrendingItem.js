@@ -12,19 +12,7 @@ export default class TrendingItem extends BaseItem {
         if (!item) {
             return null;
         }
-        // let favoriteButton =
-        //     <TouchableOpacity
-        //         style={{padding: 6}}
-        //         onPress={() => {
-        //         }}
-        //         underlayColor={'transparent'}
-        //     >
-        //         <FontAwesome
-        //             name={'star-o'}
-        //             size={26}
-        //             style={{color: 'red'}}
-        //         />
-        //     </TouchableOpacity>;
+
         let description = '<p>' + item.description + '</p>';
         return (
             <TouchableOpacity
