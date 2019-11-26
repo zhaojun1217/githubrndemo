@@ -49,7 +49,7 @@ export function onLoadMoreTrending(storeName, pageIndex, pageSize, dataArray = [
                     error: 'no more',
                     storeName: storeName,
                     pageIndex: --pageIndex,
-                    projectModes: dataArray
+                    projectModels: dataArray
                 })
             } else {
                 //本次和载入的最大数量
@@ -58,7 +58,7 @@ export function onLoadMoreTrending(storeName, pageIndex, pageSize, dataArray = [
                     type: Types.TRENDING_LOAD_MORE_SUCCESS,
                     storeName,
                     pageIndex,
-                    projectModes: dataArray.slice(0, max),
+                    projectModels: dataArray.slice(0, max),
                 })
             }
         }, 500);

@@ -13,11 +13,6 @@ export default class PopularItem extends BaseItem {
         if (!item || !item.owner) {
             return null;
         }
-        // let favoriteButton = <TouchableOpacity onPress={() => {
-        //
-        // }} style={{padding: 6}} underlayColor={'transparent'}>
-        //     <FontAwesome name={'star'} size={26} style={{color: 'red'}}/>
-        // </TouchableOpacity>;
         return (
             <TouchableOpacity
                 onPress={this.props.onSelect}
