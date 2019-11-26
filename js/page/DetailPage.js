@@ -13,13 +13,14 @@ import {
     TouchableOpacity,
     DeviceInfo,
 } from 'react-native';
-import {WebView} from 'react-native-webview'
+import {WebView} from 'react-native-webview';
 import NavigationBar from '../common/NavigationBar';
 import ViewUtil from '../util/ViewUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
+
 const TRENDING_URL = 'https://github.com/';
 const THEME_COLOR = '#678';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default class DetailPage extends Component<Props> {
 
@@ -32,7 +33,7 @@ export default class DetailPage extends Component<Props> {
         this.state = {
             title: title,
             url: this.url,
-            canGoBack: false
+            canGoBack: false,
         };
         // this.backPress = new BackPressComponent({backPress: () => this.onBackPress()});
     }
@@ -86,7 +87,7 @@ export default class DetailPage extends Component<Props> {
     }
 
     render() {
-        const titleLayoutStyle = this.state.title.length > 20 ? {paddingRight: 30} : null;
+        const titleLayoutStyle = this.state.title && this.state.title.length > 20 ? {paddingRight: 30} : null;
         let navigationBar = <NavigationBar
             leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
             titleLayoutStyle={titleLayoutStyle}
