@@ -4,6 +4,7 @@ import popular from './popular'
 import {rootCom, RootNavigator} from '../navigator/AppNavigator';
 import {createAppContainer} from 'react-navigation';
 import trending from './trending'
+import favorite from './favorite'
 
 // const rootCom = 'Init';//设置根路由
 // RootNavigator.router.getActionForPathAndParams(rootCom)：是获取路由rootCom对应的action
@@ -39,6 +40,7 @@ const index = combineReducers({
     theme: theme,
     popular: popular,
     trending: trending,
+    favorite: favorite,
 });
 
 export default index;

@@ -30,7 +30,7 @@ import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE';
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
 const URL = 'https://github.com/trending/';
 import TrendingDialog, {TimeSpans} from '../common/TrendingDialog';
 import FavoriteDao from '../expand/dao/FavoriteDao';
