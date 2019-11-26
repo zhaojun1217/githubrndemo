@@ -36,16 +36,16 @@ export default class BaseItem extends Component {
         return null;
     }
 
-    setFavoriteState(sFavorite){
+    setFavoriteState(sFavorite) {
         this.props.projectModel.sFavorite = sFavorite;
         this.setState({
             sFavorite: sFavorite,
-        })
+        });
     }
 
-    onPressFavorite(){
+    onPressFavorite() {
         this.setFavoriteState(!this.state.sFavorite);
-        this.props.onFavorite(this.props.projectModel.item, !this.state.sFavorite)
+        this.props.onFavorite(this.props.projectModel.item, !this.state.sFavorite);
     }
 
     _favoriteIcon() {
@@ -59,6 +59,12 @@ export default class BaseItem extends Component {
                 style={{color: '#678'}}
             />
         </TouchableOpacity>;
+    }
+
+    onItemClick() {
+        this.props.onSelect(sFavorite => {
+            this.setFavoriteState(sFavorite);
+        });
     }
 
 }

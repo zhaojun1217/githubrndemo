@@ -44,7 +44,7 @@ export default class TrendingPage extends Component<Props> {
     constructor(props) {
         super(props);
         console.log(NavigationUtil.navigation);
-        this.tabNames = ['All', 'C', 'C#', 'PHP', 'JavaScript'];
+        this.tabNames = [ 'C', 'C#', 'PHP', 'JavaScript'];
         this.state = {
             timeSpan: TimeSpans[0],
         };
@@ -203,9 +203,11 @@ class TrendingTab extends Component<Props> {
         const item = data.item;
         return <TrendingItem
             projectModel={item}
-            onSelect={() => {
+            onSelect={(callback) => {
                 NavigationUtil.goPage({
                     projectModel: item,
+                    flag: FLAG_STORAGE.flag_trending,
+                    callback,
                 }, 'DetailPage');
             }}
             onFavorite={(item, sFavorite) => FavoriteUtil.onFavorite(favoriteDao, item, sFavorite, FLAG_STORAGE.flag_trending)}

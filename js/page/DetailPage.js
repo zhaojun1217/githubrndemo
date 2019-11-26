@@ -21,20 +21,24 @@ import NavigationUtil from '../navigator/NavigationUtil';
 const TRENDING_URL = 'https://github.com/';
 const THEME_COLOR = '#678';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FavoriteDao from '../expand/dao/FavoriteDao';
 
 export default class DetailPage extends Component<Props> {
 
     constructor(props) {
         super(props);
         this.params = this.props.navigation.state.params;
-        const {projectModel} = this.params;
-        this.url = projectModel.html_url || TRENDING_URL + projectModel.fullName;
-        const title = projectModel.full_name || projectModel.fullName;
+        const {projectModel, flag} = this.params;
+        this.favoriteDao = new FavoriteDao(flag);
+        this.url = projectModel.item.html_url || TRENDING_URL + projectModel.item.fullName;
+        const title = projectModel.item.full_name || projectModel.item.fullName;
         this.state = {
             title: title,
             url: this.url,
             canGoBack: false,
-        };
+            sFavorite: projectModel.sFavorite,
+        }
+        ;
         // this.backPress = new BackPressComponent({backPress: () => this.onBackPress()});
     }
 
@@ -60,14 +64,29 @@ export default class DetailPage extends Component<Props> {
         }
     }
 
+    onFavoriteButtonClick() {
+        const {projectModel, callback} = this.params;
+        const sFavorite = projectModel.sFavorite = !projectModel.sFavorite;
+        callback(sFavorite); // 更新Item的收藏状态
+        this.setState({
+            sFavorite: sFavorite,
+        });
+        let key = projectModel.item.fullName ? projectModel.item.fullName : projectModel.item.id.toString();
+        if (projectModel.sFavorite) {
+            this.favoriteDao.saveFavoriteItem(key, JSON.stringify(projectModel.item));
+        } else {
+            this.favoriteDao.removeFavoriteItem(key);
+        }
+    }
+
     renderRightButton() {
         return (<View style={{flexDirection: 'row'}}>
                 <TouchableOpacity
                     onPress={() => {
-
+                        this.onFavoriteButtonClick();
                     }}>
                     <FontAwesome
-                        name={'star-o'}
+                        name={this.state.sFavorite ? 'star' : 'star-o'}
                         size={20}
                         style={{color: 'white', marginRight: 10}}
                     />
