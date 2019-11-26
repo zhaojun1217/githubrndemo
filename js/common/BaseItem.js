@@ -14,7 +14,7 @@ export default class BaseItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isFavorite: this.props.projectModel.isFavorite,
+            sFavorite: this.props.projectModel.sFavorite,
         };
     }
 
@@ -27,25 +27,25 @@ export default class BaseItem extends Component {
      * @returns {*}
      */
     static getDerivedStateFromProps(nextProps, prevState) {
-        const isFavorite = nextProps.projectModel.isFavorite;
-        if (prevState.isFavorite !== isFavorite) {
+        const sFavorite = nextProps.projectModel.sFavorite;
+        if (prevState.sFavorite !== sFavorite) {
             return {
-                isFavorite: isFavorite,
+                sFavorite: sFavorite,
             };
         }
         return null;
     }
 
-    setFavoriteState(){
-        this.props.projectModel.isFavorite = isFavorite;
+    setFavoriteState(sFavorite){
+        this.props.projectModel.sFavorite = sFavorite;
         this.setState({
-            isFavorite: isFavorite,
+            sFavorite: sFavorite,
         })
     }
 
     onPressFavorite(){
-        this.setFavoriteState(!this.state.isFavorite);
-        this.props.onFavorite(this.props.projectModel.item, !this.state.isFavorite)
+        this.setFavoriteState(!this.state.sFavorite);
+        this.props.onFavorite(this.props.projectModel.item, !this.state.sFavorite)
     }
 
     _favoriteIcon() {
@@ -54,7 +54,7 @@ export default class BaseItem extends Component {
             underlayColor='transparent'
             onPress={() => this.onPressFavorite()}>
             <FontAwesome
-                name={this.state.isFavorite ? 'star' : 'star-o'}
+                name={this.state.sFavorite ? 'star' : 'star-o'}
                 size={26}
                 style={{color: '#678'}}
             />

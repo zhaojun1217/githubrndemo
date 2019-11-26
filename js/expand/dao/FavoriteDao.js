@@ -7,19 +7,24 @@ export default class FavoriteDao {
     }
 
     /**
-     * 搜藏项目，保存收藏的项目
+     * 收藏项目,保存收藏的项目
+     * @param key 项目id
+     * @param value 收藏的项目
+     * @param callback
      */
     saveFavoriteItem(key, value, callback) {
         AsyncStorage.setItem(key, value, (error, result) => {
-            if (!error) { // 更新favoritekey
+            if (!error) {//更新Favorite的key
                 this.updateFavoriteKeys(key, true);
             }
         });
     }
 
     /**
-     * 更新favorite key集合
-     */
+     * 更新Favorite key集合
+     * @param key
+     * @param isAdd true 添加,false 删除
+     * **/
     updateFavoriteKeys(key, isAdd) {
         AsyncStorage.getItem(this.favoriteKey, (error, result) => {
             if (!error) {

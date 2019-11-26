@@ -122,7 +122,7 @@ class PopularTab extends Component<Props> {
                     projectModel: item,
                 }, 'DetailPage');
             }}
-            onFavorite={(item, isFavorite) => FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_popular)}
+            onFavorite={(item, sFavorite) => FavoriteUtil.onFavorite(favoriteDao, item, sFavorite, FLAG_STORAGE.flag_popular)}
         />;
         // return <View style={{marginBottom: 10}}>
         //     <Text style={{backgroundColor: '#456'}}>

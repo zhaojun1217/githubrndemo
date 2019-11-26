@@ -1,10 +1,10 @@
 /**
  * 带搜藏状态的model
  * @param item
- * @param isFavorite
+ * @param sFavorite
  * @constructor
  */
-export default function ProjectModel(item, isFavorite) {
+export default function ProjectModel(item, sFavorite) {
     this.item = item;
-    this.isFavorite = isFavorite;
+    this.sFavorite = sFavorite;
 }
