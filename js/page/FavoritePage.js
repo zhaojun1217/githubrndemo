@@ -28,6 +28,8 @@ import FavoriteDao from '../expand/dao/FavoriteDao';
 import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
 import TrendingItem from '../common/TrendingItem';
+import EventBus from 'react-native-event-bus';
+import EventTypes from '../util/EventTypes';
 
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 const URL = 'https://api.github.com/search/repositories?q=';
@@ -67,7 +69,7 @@ export default class FavoritePage extends Component<Props> {
             tabBarOptions: {
                 tabStyle: styles.tabStyle,
                 upperCaseLabel: false,
-                scrollEnabled: true,
+                scrollEnabled: false,
                 style: {
                     height: 50,
                     backgroundColor: '#678', // tabBar 背景色
@@ -94,16 +96,16 @@ class FavoriteTab extends Component<Props> {
 
     componentDidMount() {
         this.loadData(true);
-        // EventBus.getInstance().addListener(EventTypes.bottom_tab_select, this.listener = data => {
-        //     if (data.to === 2) {
-        //         this.loadData(false);
-        //     }
-        // });
+        EventBus.getInstance().addListener(EventTypes.bottom_tab_select, this.listener = data => {
+            if (data.to === 2) {
+                this.loadData(false);
+            }
+        });
     }
 
-    // componentWillUnmount() {
-    //     EventBus.getInstance().removeListener(this.listener);
-    // }
+    componentWillUnmount() {
+        EventBus.getInstance().removeListener(this.listener);
+    }
 
     loadData(isShowLoading) {
         const {onLoadFavoriteData} = this.props;

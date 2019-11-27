@@ -18,6 +18,8 @@ import FavoritePage from '../page/FavoritePage';
 import TrendingPage from '../page/TrendingPage';
 import MyPage from '../page/MyPage';
 import {connect} from 'react-redux';
+import EventBus from 'react-native-event-bus';
+import EventTypes from '../util/EventTypes';
 
 const TABS = { // 在这里配置页面的路由
     PopularPage: {
@@ -99,7 +101,14 @@ class DynamicTabNavigator extends Component<Props> {
     render() {
         // NavigationUtil.navigation = this.props.navigation;
         const Tab = this._tabNavigator();
-        return <Tab/>;
+        return <Tab
+            onNavigationStateChange={(prevState, newState, action) => {
+                EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select, { // 发送地步tab切换的事件
+                    form: prevState.index,
+                    to: newState.index,
+                });
+            }}
+        />;
     }
 }
 
