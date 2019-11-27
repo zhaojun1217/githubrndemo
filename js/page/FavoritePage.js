@@ -132,11 +132,11 @@ class FavoriteTab extends Component<Props> {
 
     onFavorite(item, sFavorite) {
         FavoriteUtil.onFavorite(this.favoriteDao, item, sFavorite, this.props.flag);
-        // if (this.storeName === FLAG_STORAGE.flag_popular) {
-        //     EventBus.getInstance().fireEvent(EventTypes.favorite_changed_popular);
-        // } else {
-        //     EventBus.getInstance().fireEvent(EventTypes.favoriteChanged_trending);
-        // }
+        if (this.storeName === FLAG_STORAGE.flag_popular) {
+            EventBus.getInstance().fireEvent(EventTypes.favorite_changed_popular);
+        } else {
+            EventBus.getInstance().fireEvent(EventTypes.favoriteChanged_trending);
+        }
     }
 
 
