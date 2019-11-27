@@ -11,6 +11,7 @@ import {
     createReactNavigationReduxMiddleware,
     createReduxContainer,
 } from 'react-navigation-redux-helpers';
+import WebViewPage from '../page/WebViewPage';
 
 export const rootCom = 'Init';// 设置跟路由
 
@@ -31,6 +32,12 @@ const MainNavigator = createStackNavigator({
     },
     DetailPage: {
         screen: DetailPage,
+        navigationOptions: {
+            header: null,// 可以通过将header null 来金庸stacknavigator的navigatorbar
+        },
+    },
+    WebViewPage: {
+        screen: WebViewPage,
         navigationOptions: {
             header: null,// 可以通过将header null 来金庸stacknavigator的navigatorbar
         },
