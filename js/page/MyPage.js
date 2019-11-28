@@ -15,7 +15,7 @@ import NavigationBar from '../common/NavigationBar';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MORE_MENU} from '../common/MORE_MENU';
-import GlobalStyles from '../res/GlobalStyles';
+import GlobalStyles from '../res/styles/GlobalStyles';
 import ViewUtil from '../util/ViewUtil';
 
 const THEME_COLOR = '#678';

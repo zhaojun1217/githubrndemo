@@ -13,7 +13,7 @@ import {
     TouchableOpacity,
     DeviceInfo,
 } from 'react-native';
-import BackPressComponent from "../common/BackPressComponent";
+import BackPressComponent from '../common/BackPressComponent';
 import {WebView} from 'react-native-webview';
 import NavigationBar from '../common/NavigationBar';
 import ViewUtil from '../util/ViewUtil';
@@ -31,8 +31,7 @@ export default class WebViewPage extends Component<Props> {
             title: title,
             url: url,
             canGoBack: false,
-        }
-        ;
+        };
         this.backPress = new BackPressComponent({backPress: () => this.onBackPress()});
     }
 
