@@ -21,35 +21,6 @@ import ViewUtil from '../util/ViewUtil';
 const THEME_COLOR = '#678';
 
 class MyPage extends Component<Props> {
-    getRightButton() {
-        return <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-                onPress={() => {
-                }}
-            >
-                <View style={{padding: 5, marginRight: 8}}>
-                    <Feather
-                        name={'search'}
-                        size={24}
-                        style={{color: 'white'}}
-                    />
-                </View>
-
-            </TouchableOpacity>
-        </View>;
-    }
-
-    getLeftButton(callBack) {
-        return <TouchableOpacity
-            style={{padding: 8, paddingLeft: 12}}
-            onPress={callBack}>
-            <Ionicons
-                name={'ios-arrow-back'}
-                size={26}
-                style={{color: 'white'}}/>
-        </TouchableOpacity>;
-    }
-
 
     onClick(menu) {
         let RouteName, params = {};
@@ -58,6 +29,9 @@ class MyPage extends Component<Props> {
                 RouteName = 'WebViewPage';
                 params.title = '教程';
                 params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
+                break;
+            case MORE_MENU.About:
+                RouteName = 'AboutPage';
                 break;
         }
         if (RouteName) {
@@ -79,8 +53,6 @@ class MyPage extends Component<Props> {
                 title={'我的'}
                 statusBar={statusBar}
                 style={{backgroundColor: THEME_COLOR}}
-                rightButton={this.getRightButton()}
-                leftButton={this.getLeftButton()}
             />;
         return (
             <View style={GlobalStyles.root_container}>

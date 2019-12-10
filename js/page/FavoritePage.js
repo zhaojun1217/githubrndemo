@@ -48,7 +48,7 @@ export default class FavoritePage extends Component<Props> {
             barStyle: 'light-content',
         };
         let navigationBar = <NavigationBar
-            title={'最热'}
+            title={'收藏'}
             statusBar={statusBar}
             style={{backgroundColor: THEME_COLOR}}
         />;
