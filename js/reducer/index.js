@@ -1,10 +1,11 @@
 import {combineReducers} from 'redux';
 import theme from './theme';
-import popular from './popular'
+import popular from './popular';
 import {rootCom, RootNavigator} from '../navigator/AppNavigator';
 import {createAppContainer} from 'react-navigation';
-import trending from './trending'
-import favorite from './favorite'
+import trending from './trending';
+import favorite from './favorite';
+import language from './language';
 
 // const rootCom = 'Init';//设置根路由
 // RootNavigator.router.getActionForPathAndParams(rootCom)：是获取路由rootCom对应的action
@@ -41,6 +42,8 @@ const index = combineReducers({
     popular: popular,
     trending: trending,
     favorite: favorite,
+    language: language,
+
 });
 
 export default index;
