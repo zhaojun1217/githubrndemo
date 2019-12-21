@@ -83,6 +83,7 @@ class PopularPage extends Component<Props> {
                 indicatorStyle: styles.indicatorStyle,// 指示器的标签样式
                 labelStyle: styles.labelStyle,
             },
+            lazy: true,
         })) : null;
         const isIOS = Platform.OS === 'ios';
         return <View style={{flex: 1, marginTop: isIOS ? 30 : 0}}>

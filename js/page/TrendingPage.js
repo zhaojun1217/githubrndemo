@@ -65,9 +65,9 @@ class TrendingPage extends Component<Props> {
                 tabs[`tab${index}`] = {
                     screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name}/>,
                     navigationOptions: {
-                        title: item.name
-                    }
-                }
+                        title: item.name,
+                    },
+                };
             }
         });
         return tabs;
@@ -124,6 +124,7 @@ class TrendingPage extends Component<Props> {
                         indicatorStyle: styles.indicatorStyle,//标签指示器的样式
                         labelStyle: styles.labelStyle,//文字的样式
                     },
+                    lazy: true,
                 },
             ));
         }
@@ -147,7 +148,7 @@ class TrendingPage extends Component<Props> {
             {navigationBar}
             {TabNavigator && <TabNavigator/>}
             {this.renderTrendingDialog()}
-        </View>
+        </View>;
     }
 }
 

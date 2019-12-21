@@ -10,7 +10,7 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    Text,
+    Alert,
     Platform,
     FlatList,
     ActivityIndicator,
@@ -35,6 +35,7 @@ import BackPressComponent from '../common/BackPressComponent';
 import ViewUtil from '../util/ViewUtil';
 import CheckBox from 'react-native-check-box';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ArrayUtil from '../util/ArrayUtil';
 
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 const URL = 'https://api.github.com/search/repositories?q=';
@@ -84,7 +85,13 @@ class CustomKeyPage extends Component<Props> {
         const {flag, isRemoveKey} = props.navigation.state.params;
         let key = flag === FLAG_LANGUAGE.flag_key ? 'keys' : 'languages';
         if (isRemoveKey && !original) {
-
+            // 如果state中的keys为空 则从props中取
+            return state && state.keys && state.keys.length !== 0 && state.keys || props.language[key].map(val => {
+                return { // 注意 不直接修改props copy一份
+                    ...val,
+                    checked: false,
+                };
+            });
         } else {
             return props.language[key];
         }
@@ -96,8 +103,24 @@ class CustomKeyPage extends Component<Props> {
     }
 
     onSave() {
-
+        if (this.changeValues.length === 0) {
+            NavigationUtil.goBack(this.props.navigation);
+            return;
+        }
+        let keys;
+        if (this.isRemoveKey) {//移除标签的特殊处理
+            for (let i = 0, l = this.changeValues.length; i < l; i++) {
+                ArrayUtil.removeItem(keys = CustomKeyPage._keys(this.props, true), this.changeValues[i], 'name');
+            }
+        }
+        //更新本地数据
+        this.languageDao.save(keys || this.state.keys);
+        const {onLoadLanguage} = this.props;
+        //更新store
+        onLoadLanguage(this.params.flag);
+        NavigationUtil.goBack(this.props.navigation);
     }
+
 
     renderView() {
         let dataArray = this.state.keys;
@@ -121,11 +144,31 @@ class CustomKeyPage extends Component<Props> {
     }
 
     onClick(data, index) {
-
+        data.checked = !data.checked;
+        ArrayUtil.updateArray(this.changeValues, data);
+        this.state.keys[index] = data; // 更新state以便更新显示选择状态
+        this.setState({
+            keys: this.state.keys,
+        });
     }
 
     onBack() {
-        NavigationUtil.goBack(this.props.navigation);
+        if (this.changeValues.length > 0) {
+            Alert.alert('提示', '要保存修改吗？',
+                [
+                    {
+                        text: '否', onPress: () => {
+                            NavigationUtil.goBack(this.props.navigation);
+                        },
+                    }, {
+                    text: '是', onPress: () => {
+                        this.onSave();
+                    },
+                },
+                ]);
+        } else {
+            NavigationUtil.goBack(this.props.navigation);
+        }
     }
 
     _checkedImage(checked) {
@@ -142,7 +185,7 @@ class CustomKeyPage extends Component<Props> {
         return <CheckBox
             style={{flex: 1, padding: 10}}
             onClick={() => this.onClick(data, index)}
-            isChecked={data.isChecked}
+            isChecked={data.checked}
             leftText={data.name}
             checkedImage={this._checkedImage(true)}
             unCheckedImage={this._checkedImage(false)}
@@ -187,6 +230,6 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 0.3,
         backgroundColor: 'darkgray',
-    }
+    },
 });
 
