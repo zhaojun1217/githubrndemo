@@ -54,4 +54,21 @@ export default class ArrayUtil {
         return array;
     }
 
+    /**
+     * clone 数组
+     * @param from
+     * @returns  返回一个新的数组
+     */
+    static cloneArray(from) {
+        if (!from) {
+            return [];
+        }
+        let newArray = [];
+        for (let i = 0, l = from.length; i < l; i++) {
+            newArray[i] = from[i];
+        }
+        return newArray;
+    }
+
+
 }
