@@ -14,6 +14,7 @@ import GlobalStyles from '../../res/styles/GlobalStyles';
 import ViewUtil from '../../util/ViewUtil';
 import AboutCommon, {FLAG_ABOUT} from './AboutCommon';
 import config from '../../res/data/config';
+import BackPressComponent from '../../common/BackPressComponent';
 
 const THEME_COLOR = '#678';
 
@@ -22,6 +23,7 @@ export default class AboutPage extends Component<Props> {
     constructor(props) {
         super(props);
         this.params = this.props.navigation.state.params;
+        this.backPress = new BackPressComponent({backPress: (e) => this.onBackPress(e)});
         this.aboutCommon = new AboutCommon({
             ...this.params,
             navigation: this.props.navigation,
@@ -31,9 +33,27 @@ export default class AboutPage extends Component<Props> {
             data: config,
         };
     }
+    onBackPress(e) {
+        this.onBack();
+        return true;
+    }
+
+    onBack() {
+        NavigationUtil.goBack(this.props.navigation);
+    }
+
+    componentDidMount(): void {
+        this.backPress.componentDidMount();
+    }
+
+    componentWillUnmount(): void {
+        this.backPress.componentWillUnmount();
+    }
 
     onClick(menu) {
-        let RouteName, params = {};
+        let RouteName = {};
+        const {theme} = this.params;
+        let params = {theme};
         switch (menu) {
             case MORE_MENU.Tutorial:
                 RouteName = 'WebViewPage';
@@ -64,7 +84,8 @@ export default class AboutPage extends Component<Props> {
     }
 
     getItem(menu) {
-        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR);
+        const {theme} = this.params;
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
     }
 
     render() {

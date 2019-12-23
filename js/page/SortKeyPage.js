@@ -77,6 +77,7 @@ class SortKeyPage extends Component<Props> {
     componentWillUnmount(): void {
         this.backPress.componentWillUnmount();
     }
+
     /**
      * 获取标签
      * @param props
@@ -95,7 +96,9 @@ class SortKeyPage extends Component<Props> {
         let keys = [];
         for (let i = 0, j = dataArray.length; i < j; i++) {
             let data = dataArray[i];
-            if (data.checked) keys.push(data);
+            if (data.checked) {
+                keys.push(data);
+            }
         }
         return keys;
     }
@@ -158,16 +161,16 @@ class SortKeyPage extends Component<Props> {
                 [
                     {
                         text: '否', onPress: () => {
-                            NavigationUtil.goBack(this.props.navigation)
-                        }
+                            NavigationUtil.goBack(this.props.navigation);
+                        },
                     }, {
                     text: '是', onPress: () => {
                         this.onSave(true);
-                    }
-                }
-                ])
+                    },
+                },
+                ]);
         } else {
-            NavigationUtil.goBack(this.props.navigation)
+            NavigationUtil.goBack(this.props.navigation);
         }
     }
 
@@ -177,7 +180,7 @@ class SortKeyPage extends Component<Props> {
             name={checked ? 'ios-checkbox' : 'md-square-outline'}
             size={20}
             style={{
-                color: THEME_COLOR,
+                color: theme.themeColor,
             }}/>;
     }
 
@@ -193,11 +196,12 @@ class SortKeyPage extends Component<Props> {
     }
 
     render() {
+        const {theme} = this.params;
         let title = this.params.flag === FLAG_LANGUAGE.flag_language ? '语言排序' : '标签排序';
         let navigationBar = <NavigationBar
             title={title}
             leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
-            style={{backgroundColor: THEME_COLOR}}
+            style={theme.styles.navBar}
             rightButton={ViewUtil.getRightButton('保存', () => this.onSave())}
         />;
         return <View style={styles.container}>
@@ -217,6 +221,7 @@ class SortKeyPage extends Component<Props> {
 
 class SortCell extends Component {
     render() {
+        const {theme} = this.props;
         return <TouchableHighlight
             underlayColor={'#eee'}
             style={this.props.data.checked ? styles.item : styles.hidden}
@@ -225,7 +230,7 @@ class SortCell extends Component {
                 <MaterialCommunityIcons
                     name={'sort'}
                     size={16}
-                    style={{marginRight: 10, color: THEME_COLOR}}/>
+                    style={{marginRight: 10, color: theme.themeColor}}/>
                 <Text>{this.props.data.name}</Text>
             </View>
         </TouchableHighlight>;
@@ -235,6 +240,7 @@ class SortCell extends Component {
 
 const mapPopularStateToProps = state => ({
     language: state.language,
+    theme: state.theme,
 });
 const mapPopularDispatchToProps = dispatch => ({
     onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag)),
@@ -252,13 +258,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'darkgray',
     },
     hidden: {
-        height: 0
+        height: 0,
     },
     item: {
-        backgroundColor: "#F8F8F8",
+        backgroundColor: '#F8F8F8',
         borderBottomWidth: 1,
         borderColor: '#eee',
         height: 50,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 });

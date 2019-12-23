@@ -19,8 +19,6 @@ import NavigationBar from '../common/NavigationBar';
 import ViewUtil from '../util/ViewUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 
-const THEME_COLOR = '#678';
-
 export default class WebViewPage extends Component<Props> {
 
     constructor(props) {
@@ -40,13 +38,12 @@ export default class WebViewPage extends Component<Props> {
         return true;
     }
 
-
     componentDidMount() {
-        // this.backPress.componentDidMount();
+        this.backPress.componentDidMount();
     }
 
     componentWillUnmount() {
-        // this.backPress.componentWillUnmount();
+        this.backPress.componentWillUnmount();
     }
 
     onBack() {
@@ -66,9 +63,10 @@ export default class WebViewPage extends Component<Props> {
 
     render() {
         const titleLayoutStyle = this.state.title && this.state.title.length > 20 ? {paddingRight: 30} : null;
+        const {theme} = this.params;
         let navigationBar = <NavigationBar
             title={this.state.title}
-            style={{backgroundColor: THEME_COLOR}}
+            style={theme.styles.navBar}
             leftButton={ViewUtil.getLeftBackButton(() => this.onBackPress())}
         />;
 

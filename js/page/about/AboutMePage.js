@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, Clipboard, Linking, View, ScrollView} from 'react-native';
+import {Button, StyleSheet, Text, Clipboard, Linking, View, ScrollView, Alert} from 'react-native';
 import NavigationUtil from '../../navigator/NavigationUtil';
 import {MORE_MENU} from '../../common/MORE_MENU';
 import GlobalStyles from '../../res/styles/GlobalStyles';
@@ -16,14 +16,15 @@ import AboutCommon, {FLAG_ABOUT} from './AboutCommon';
 import config from '../../res/data/config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-easy-toast';
-
-const THEME_COLOR = '#678';
+import BackPressComponent from '../../common/BackPressComponent';
+import ArrayUtil from '../../util/ArrayUtil';
 
 export default class AboutMePage extends Component<Props> {
 
     constructor(props) {
         super(props);
         this.params = this.props.navigation.state.params;
+        this.backPress = new BackPressComponent({backPress: (e) => this.onBackPress(e)});
         this.aboutCommon = new AboutCommon({
             ...this.params,
             navigation: this.props.navigation,
@@ -38,12 +39,32 @@ export default class AboutMePage extends Component<Props> {
         };
     }
 
+    onBackPress(e) {
+        this.onBack();
+        return true;
+    }
+
+    onBack() {
+        NavigationUtil.goBack(this.props.navigation);
+    }
+
+    componentDidMount(): void {
+        this.backPress.componentDidMount();
+    }
+
+    componentWillUnmount(): void {
+        this.backPress.componentWillUnmount();
+    }
+
+
     onClick(tab) {
+        const {theme} = this.params;
         if (!tab) {
             return;
         }
         if (tab.url) {
             NavigationUtil.goPage({
+                theme,
                 title: tab.title,
                 url: tab.url,
             }, 'WebViewPage');
@@ -67,18 +88,21 @@ export default class AboutMePage extends Component<Props> {
     }
 
     getItem(menu) {
-        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR);
+        const {theme} = this.params;
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
     }
 
     _item(data, isShow, key) {
+        const {theme} = this.params;
         return ViewUtil.getSettingItem(() => {
             this.setState({
                 [key]: !this.state[key],
             });
-        }, data.name, THEME_COLOR, Ionicons, data.icon, isShow ? 'ios-arrow-up' : 'ios-arrow-down');
+        }, data.name, theme.themeColor, Ionicons, data.icon, isShow ? 'ios-arrow-up' : 'ios-arrow-down');
     }
 
     renderItems(dic, isShowAccount) {
+        const {theme} = this.params;
         if (!dic) {
             return null;
         }
@@ -87,7 +111,7 @@ export default class AboutMePage extends Component<Props> {
             let title = isShowAccount ? dic[i].title + ':' + dic[i].account : dic[i].title;
             views.push(
                 <View key={i}>
-                    {ViewUtil.getSettingItem(() => this.onClick(dic[i]), title, THEME_COLOR)}
+                    {ViewUtil.getSettingItem(() => this.onClick(dic[i]), title, theme.themeColor)}
                     <View style={GlobalStyles.line}/>
                 </View>,
             );

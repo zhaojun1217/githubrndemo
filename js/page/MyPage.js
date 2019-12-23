@@ -22,7 +22,9 @@ import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
 class MyPage extends Component<Props> {
 
     onClick(menu) {
-        let RouteName, params = {};
+        const {theme} = this.props;
+        let RouteName = {};
+        let params = {theme};
         switch (menu) {
             case MORE_MENU.Tutorial:
                 RouteName = 'WebViewPage';
@@ -69,7 +71,7 @@ class MyPage extends Component<Props> {
     render() {
         const {theme} = this.props;
         let statusBar = {
-            backgroundColor:  theme.themeColor,
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
         };
         let navigationBar =
