@@ -134,7 +134,7 @@ class TabBarComponent extends React.Component {
 
         return <BottomTabBar
             {...this.props}
-            activeTintColor={this.props.theme}
+            activeTintColor={this.props.theme.themeColor}
         />;
     }
 }

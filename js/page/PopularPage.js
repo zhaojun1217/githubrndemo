@@ -34,7 +34,6 @@ import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = `&sort=stars`;
-const THEME_COLOR = '#678';
 
 class PopularPage extends Component<Props> {
     constructor(props) {
@@ -45,11 +44,11 @@ class PopularPage extends Component<Props> {
 
     _genTabs() {
         const tabs = {};
-        const {keys} = this.props;
+        const {keys, theme} = this.props;
         keys.forEach((item, index) => {
             if (item.checked) {
                 tabs[`tab${index}`] = {
-                    screen: props => <PopularTabPage{...props} tabLabel={item.name}/>,
+                    screen: props => <PopularTabPage{...props} tabLabel={item.name} theme={theme}/>,
                     navigationOptions: {
                         title: item.name,
                     },
@@ -61,15 +60,15 @@ class PopularPage extends Component<Props> {
 
 
     render() {
-        const {keys} = this.props;
+        const {keys, theme} = this.props;
         let statusBar = {
-            backgroundColor: THEME_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
         };
         let navigationBar = <NavigationBar
             title={'最热'}
             statusBar={statusBar}
-            style={{backgroundColor: THEME_COLOR}}
+            style={theme.styles.navBar}
         />;
         const TobNavigator = keys.length ? createAppContainer(createMaterialTopTabNavigator(this._genTabs(), {
             tabBarOptions: {
@@ -78,7 +77,7 @@ class PopularPage extends Component<Props> {
                 scrollEnabled: true,
                 style: {
                     height: 50,
-                    backgroundColor: '#678', // tabBar 背景色
+                    backgroundColor: theme.themeColor, // tabBar 背景色
                 },
                 indicatorStyle: styles.indicatorStyle,// 指示器的标签样式
                 labelStyle: styles.labelStyle,
@@ -95,6 +94,7 @@ class PopularPage extends Component<Props> {
 
 const mapPopularStateToProps = state => ({
     keys: state.language.keys,
+    theme: state.theme.theme,
 });
 const mapPopularDispatchToProps = dispatch => ({
     onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag)),
@@ -150,10 +150,13 @@ class PopularTab extends Component<Props> {
 
     renderItem(data) {
         const item = data.item;
+        const {theme} = this.props;
         return <PopularItem
             projectModel={item}
+            theme={theme}
             onSelect={(callback) => {
                 NavigationUtil.goPage({
+                    theme,
                     projectModel: item,
                     flag: FLAG_STORAGE.flag_popular,
                     callback,
@@ -194,7 +197,7 @@ class PopularTab extends Component<Props> {
 
     render() {
         let store = this._store();
-
+        const {theme} = this.props;
         return (
             <View style={styles.container}>
                 <FlatList
@@ -204,13 +207,13 @@ class PopularTab extends Component<Props> {
                     refreshControl={
                         <RefreshControl
                             title={'Loading'}
-                            titleColor={THEME_COLOR}
-                            colors={[THEME_COLOR]}
+                            titleColor={theme.themeColor}
+                            colors={[theme.themeColor]}
                             refreshing={store.isLoading}
                             onRefresh={() => {
                                 this.loadData();
                             }}
-                            tintColor={THEME_COLOR}
+                            tintColor={theme.themeColor}
                         />
                     }
                     ListFooterComponent={() => {
@@ -233,8 +236,7 @@ class PopularTab extends Component<Props> {
                         this.canLoadMore = true; // fix 初始化滚动时候页面调用onendreached
                     }}
                 />
-                <Toast ref={'toast'}
-                       position={'center'}/>
+                <Toast ref={'toast'} position={'center'}/>
             </View>
         );
     }
