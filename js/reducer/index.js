@@ -6,6 +6,7 @@ import {createAppContainer} from 'react-navigation';
 import trending from './trending';
 import favorite from './favorite';
 import language from './language';
+import search from './search';
 
 // const rootCom = 'Init';//设置根路由
 // RootNavigator.router.getActionForPathAndParams(rootCom)：是获取路由rootCom对应的action
@@ -43,6 +44,7 @@ const index = combineReducers({
     trending: trending,
     favorite: favorite,
     language: language,
+    search: search,
 
 });
 

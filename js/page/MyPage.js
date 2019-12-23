@@ -23,8 +23,14 @@ class MyPage extends Component<Props> {
 
     onClick(menu) {
         const {theme} = this.props;
-        let RouteName = {};
-        let params = {theme};
+        /**
+         * 此处一定要这么写 let RouteName, params = {theme};
+         *
+         * 分开写 如下是错误的，不知道为啥 哔了狗
+         * let routeName ={}
+         * let params = {theme}
+         * */
+        let RouteName, params = {theme};
         switch (menu) {
             case MORE_MENU.Tutorial:
                 RouteName = 'WebViewPage';
