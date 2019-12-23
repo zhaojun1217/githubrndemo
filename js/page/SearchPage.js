@@ -80,7 +80,7 @@ class SearchPage extends Component<Props> {
         this.refs.input.blur(); // 收起手机键盘
         NavigationUtil.goBack(this.props.navigation);
         if (this.isKeyChange) {
-            onLoadLanguage(FLAG_LANGUAGE.flag_key);//重新加载标签
+            onLoadLanguage(FLAG_LANGUAGE.flag_key);//重新加载标签s
         }
         return true;
     }
